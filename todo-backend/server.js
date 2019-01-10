@@ -20,6 +20,13 @@ todoRouter.route("/").get((req,res)=>{
     .catch((error)=>{res.status(500).send("error occured")})
 })
 
+
+//console.log("todoSchema====",todoSchema)
+todoRouter.route("/:id").get((req,res)=>{
+    todoSchema.findById(req.params.id).then((result)=>{res.json(result)})
+    .catch((error)=>{res.status(500).send("error occured")})
+})
+
 todoRouter.route("/add").post((req,res)=>{
     console.log(req.body)
     let newTodo=new todoSchema(req.body);

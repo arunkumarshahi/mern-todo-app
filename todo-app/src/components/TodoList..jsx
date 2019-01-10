@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import TableRow from './TableRow';
+import {getRecords} from '../service/restserviceClient';
+
 export default class TodoList extends Component {
 	constructor(props) {
 		super(props);
@@ -8,22 +10,28 @@ export default class TodoList extends Component {
 		};
 	}
 	componentDidMount() {
-		const rows = [
-			{
-				description: 'A',
-				responsible: 'R1',
-				priority: 'High',
-				completed: false
-			},
-			{
-				description: 'B',
-				responsible: 'R2',
-				priority: 'Low',
-				completed: false
-			}
-		];
+		getRecords().then((result)=>{
+			console.log("result  .... ",result.data)
+			this.setState({ rows:result.data });
+		}).catch((error)=>{console.log("errro occured ....",error)})
+		// const rows = 
+		// [
+		// 	{
+		// 		description: 'A',
+		// 		responsible: 'R1',
+		// 		priority: 'High',
+		// 		completed: false
+		// 	},
+		// 	{
+		// 		description: 'B',
+		// 		responsible: 'R2',
+		// 		priority: 'Low',
+		// 		completed: false
+		// 	}
+		// ];
 
-		this.setState({ rows });
+		// this.setState({ rows });
+		
 	}
 	render() {
 		const todoRows = this.state.rows.map((row, index) => <TableRow key={index} row={row} index={index} />);

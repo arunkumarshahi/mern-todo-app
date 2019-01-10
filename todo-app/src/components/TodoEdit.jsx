@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import {getRecord,updateRecord} from '../service/restserviceClient'
 
 class TodoEdit extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			id: '',
+			_id: '',
 			description: '',
 			responsible: '',
 			priority: '',
@@ -14,13 +15,19 @@ class TodoEdit extends Component {
 	}
 
 	componentDidMount() {
-		this.setState({
-			id: '',
-			description: '',
-			responsible: '',
-			priority: '',
-			completed: false
-		});
+		console.log("param passed ",this.props.match.params.id)
+		//axios.get(`http://localhost:4000/todos/${this.props.match.params.id}`).then((result)=>{
+			getRecord(this.props.match.params.id).then((result)=>{
+		console.log("result  .... ",result.data)
+			this.setState({ ...result.data });
+		}).catch((error)=>{console.log("errro occured ....",error)})
+		// this.setState({
+		// 	id: '',
+		// 	description: '',
+		// 	responsible: '',
+		// 	priority: '',
+		// 	completed: false
+		// });
 	}
 	onChangeDescription = (e) => {
 		this.setState({ description: e.target.value });
@@ -38,8 +45,16 @@ class TodoEdit extends Component {
 	onSubmit = (e) => {
 		e.preventDefault();
 		console.log('submitted value ', this.state);
-
-		this.props.history.push('/');
+		// axios.put(`http://localhost:4000/todos/update/${this.props.match.params.id}`,
+		//  {
+		// 	...this.state
+		//    }
+		updateRecord(this.props.match.params.id,this.state)
+	.then((result)=>{
+		this.props.history.push('/');	
+			
+		}).catch((error)=>{console.log("errro occured ....",error)})
+		
 	};
 	render() {
 		return (

@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-
+import {createRecord} from '../service/restserviceClient';
 export default class TodoCreate extends Component{
     constructor(props){
 super(props)
@@ -26,7 +26,9 @@ this.setState({description:e.target.value})
     onSubmit=(e)=>{
         e.preventDefault();
         console.log("submitted value ",this.state)
-
+        createRecord(this.state).then((result)=>{
+            console.log("Successfully created")
+        }).catch((err)=>{console.log("failed to  create")})
         this.setState({
             description:'',
             responsible:'',
