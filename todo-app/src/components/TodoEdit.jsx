@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import {getRecord,updateRecord} from '../service/restserviceClient'
+import { getRecord, updateRecord } from '../service/restserviceClient'
+import { Checkbox, Button } from 'react-bootstrap';
+//npm i react-bootstrap
 
 class TodoEdit extends Component {
 	constructor(props) {
@@ -15,19 +17,13 @@ class TodoEdit extends Component {
 	}
 
 	componentDidMount() {
-		console.log("param passed ",this.props.match.params.id)
+		console.log("param passed ", this.props.match.params.id)
 		//axios.get(`http://localhost:4000/todos/${this.props.match.params.id}`).then((result)=>{
-			getRecord(this.props.match.params.id).then((result)=>{
-		console.log("result  .... ",result.data)
+		getRecord(this.props.match.params.id).then((result) => {
+			console.log("result  .... ", result.data)
 			this.setState({ ...result.data });
-		}).catch((error)=>{console.log("errro occured ....",error)})
-		// this.setState({
-		// 	id: '',
-		// 	description: '',
-		// 	responsible: '',
-		// 	priority: '',
-		// 	completed: false
-		// });
+		}).catch((error) => { console.log("errro occured ....", error) })
+
 	}
 	onChangeDescription = (e) => {
 		this.setState({ description: e.target.value });
@@ -39,9 +35,9 @@ class TodoEdit extends Component {
 	onChangeResponsible = (e) => {
 		this.setState({ responsible: e.target.value });
 	};
-	// onChangeCompleted=(e)=>{
-	// this.setState({description:e.target.value})
-	// }
+	onChangeCompleted=(e)=>{
+	this.setState({completed:e.target.checked})
+	}
 	onSubmit = (e) => {
 		e.preventDefault();
 		console.log('submitted value ', this.state);
@@ -49,17 +45,17 @@ class TodoEdit extends Component {
 		//  {
 		// 	...this.state
 		//    }
-		updateRecord(this.props.match.params.id,this.state)
-	.then((result)=>{
-		this.props.history.push('/');	
-			
-		}).catch((error)=>{console.log("errro occured ....",error)})
-		
+		updateRecord(this.props.match.params.id, this.state)
+			.then((result) => {
+				this.props.history.push('/');
+
+			}).catch((error) => { console.log("errro occured ....", error) })
+
 	};
 	render() {
 		return (
 			<div>
-				<h3>Welcome to todo create page </h3>
+				<h3>Welcome to todo edit page </h3>
 				<form onSubmit={this.onSubmit}>
 					<div className="form-group">
 						<label> Description: </label>
@@ -114,6 +110,15 @@ class TodoEdit extends Component {
 							<label className="form-check-label"> High </label>
 						</div>
 					</div>
+
+					<div className="form-group">
+						<label> Completed: </label>
+						<Checkbox className="checkbox"
+						    label="Completed"
+							checked={this.state.completed}
+							onChange={this.onChangeCompleted} />
+					</div>
+
 					<div className="form-group">
 						<input type="submit" value="Submit TODO" className="btn btn-primary" />
 					</div>

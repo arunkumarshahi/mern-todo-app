@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import TableRow from './TableRow';
 import {getRecords} from '../service/restserviceClient';
+import '../App'
 
 export default class TodoList extends Component {
 	constructor(props) {

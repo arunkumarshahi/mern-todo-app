@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import {BrowserRouter as Router,Route,Link } from  'react-router-dom'
+import DeleteIcon from '../rubbish-bin.svg'; 
+import SVG from 'react-inlinesvg';
+// import DeleteIcon from '../'
 const TableRow = (props) => {
 	console.log('Rows ...', props);
 	const row = props.row;
@@ -10,6 +13,7 @@ const TableRow = (props) => {
 			<td>{row.description}</td>
 			<td>{row.responsible}</td>
 			<td>{row.priority}</td>
+			<td> <SVG  className="deleteResize" src={DeleteIcon}  /></td>
 		</tr>
 	);
 };
